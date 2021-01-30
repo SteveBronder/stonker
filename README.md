@@ -2,6 +2,7 @@
 
 Stonker is an framework for live trading and strategy backtesting.
 
+This project hasn't started yet, but I figured why not put it up
 
 ## Example:
 
