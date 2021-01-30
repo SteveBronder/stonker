@@ -54,6 +54,19 @@ auto simple_backtest = stonker::backtest(trader, the_stonks, resampl, stonker::p
 simple_backtest.print_performance();
 ```
 
+## Stuff for inspiration
+
+- [mlr3](https://github.com/mlr-org/mlr3): I like their API for setting up experiments
+- [PerformanceAnalytics](https://cran.r-project.org/web/packages/PerformanceAnalytics/index.html)
+- [quantstat](https://github.com/braverock/quantstrat)
+- [rqalpha](https://github.com/ricequant/rqalpha)
+
+### Dependencies?
+
+- [quantlib](https://www.quantlib.org/)
+- [boost](boost.org)
+- [ta-lib?](https://sourceforge.net/projects/ta-lib/)
+
 To build: `mkdir build && cd build && cmake .. && make`
 
 To test: `cd build && ctest`
