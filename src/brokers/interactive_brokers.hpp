@@ -105,11 +105,6 @@ class interactive_brokers : public broker_base<interactive_brokers> {
 
   	void reqCurrentTime();
 
-  public:
-  	// events
-  	#include "EWrapper_prototypes.h"
-
-
   private:
   	void printContractMsg(const Contract& contract);
   	void printContractDetailsMsg(const ContractDetails& contractDetails);
