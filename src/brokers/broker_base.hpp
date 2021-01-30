@@ -1,6 +1,10 @@
 #ifndef STONKER_SRC_BROKERS_BROKERS_BASE_HPP
 #def STONKER_SRC_BROKERS_BROKERS_BASE_HPP
 
+#include <depends/ibroker/client/EWrapper.h>
+
+// docs for EWrapper below
+// https://interactivebrokers.github.io/tws-api/interfaceIBApi_1_1EWrapper.html#ae851ec3a1e0fa2d0964c7779b0c89718
 
 namespace stonker::broker {
 /**
@@ -8,15 +12,28 @@ namespace stonker::broker {
  * @tparam Derived A class inheriting from `broker_base`
  */
 template <typename Derived>
-class broker_base {
+class broker_base : public EWrapper {
 public:
   /* Return a ref to the underlying type inheriting from `broker_base` */
   Derived& underlying() { return static_cast<Derived&>(*this); }
   /* Return a const ref to the underlying type inheriting from `broker_base` */
   Derived const& underlying() const { return static_cast<Derived const&>(*this); }
 
-  void tick_price(TickerId tickerId, TickType field, double price, const TickAttrib& attrib) {
-    return underlying().tick_price(tickerId, field, price, attrib);
+  /**
+   * Market data tick price callback. Handles all price related ticks. Every
+   * `tickPrice` callback is followed by a `tickSize`. A `tickPrice` value of -1
+   *  or 0 followed by a `tickSize` of 0 indicates there is no data for this
+   *  field currently available, whereas a `tickPrice` with a positive
+   *  `tickSize` indicates an active quote of 0
+   *  (typically for a combo contract).
+   * @param tickerId	the request's unique identifier.
+   * @param field the type of the price being received (i.e. ask price).
+   * @param price the actual price.
+   * @param attribs an `TickAttrib` object that contains price attributes such as
+   *  `TickAttrib::CanAutoExecute`, `TickAttrib::PastLimit` and `TickAttrib::PreOpen`.
+   */
+  void tickPrice(TickerId tickerId, TickType field, double price, const TickAttrib& attrib) {
+    underlying().tickPrice(tickerId, field, price, attrib);
   }
   void tickSize( TickerId tickerId, TickType field, int size) ;
   void tickOptionComputation( TickerId tickerId, TickType tickType, double impliedVol, double delta,
@@ -116,4 +133,5 @@ public:
   void completedOrdersEnd() ;
 }
 }
+
 #endif
